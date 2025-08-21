@@ -111,32 +111,49 @@ class Robot implements Workable {
 5. D – Dependency Inversion Principle (DIP)
 
 👉 Depend on abstractions, not concrete implementations.
+👉 Definition:
+High-level modules should not depend on low-level modules.
+Both should depend on abstractions (interfaces).
 
-❌ Bad Example:
-
-class MySQLDatabase {
-    void connect() {}
+// Abstraction
+interface Database {
+    void connect();
 }
 
-class UserRepository {
-    MySQLDatabase db = new MySQLDatabase(); // tightly coupled
-}
-
-
-✅ Good Example:
-
-interface Database { void connect(); }
-
+// Low-level implementations
 class MySQLDatabase implements Database {
-    public void connect() {}
+    public void connect() { System.out.println("Connected to MySQL"); }
 }
 
+class PostgreSQLDatabase implements Database {
+    public void connect() { System.out.println("Connected to PostgreSQL"); }
+}
+
+// High-level module
 class UserRepository {
-    private Database db;
-    UserRepository(Database db) { this.db = db; }
+    private final Database db;
+
+    // Depend on abstraction
+    UserRepository(Database db) {
+        this.db = db;
+    }
+
+    public void saveUser(String user) {
+        db.connect();
+        System.out.println("User saved: " + user);
+    }
 }
 
-✅ Interview-Ready Summary
+// Usage
+public class Main {
+    public static void main(String[] args) {
+        Database db1 = new PostgreSQLDatabase(); // can swap with MySQLDatabase
+        Database db2 = new MySQLDatabase(); // can swap with MySQLDatabase
+        UserRepository repo = new UserRepository(db);
+        repo.saveUser("John");
+    }
+}
+
 
 “SOLID stands for five design principles:
 
