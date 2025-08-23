@@ -61,22 +61,46 @@ class Square implements Shape {
 
 👉 Subclasses should be usable via base class reference without breaking behavior.
 ```java
-❌ Bad Example:
-
+❌ Bad Example (Breaks LSP)
 class Bird { void fly() {} }
-class Ostrich extends Bird { void fly() { throw new UnsupportedOperationException(); } }
+class Ostrich extends Bird { 
+    void fly() { throw new UnsupportedOperationException(); } 
+}
 
 
-✅ Good Example:
+Problem: Ostrich is a Bird, but it cannot fly.
 
+When used via Bird reference, calling fly() will break behavior.
+
+This violates LSP.
+
+✅ Good Example (Respects LSP)
 interface Bird {}
-interface FlyableBird extends Bird { void fly(); }
+
+interface FlyableBird extends Bird {
+    void fly();
+}
 
 class Sparrow implements FlyableBird {
     public void fly() { System.out.println("Flying"); }
 }
-class Ostrich implements Bird { /* no fly method */ }
+
+class Ostrich implements Bird {
+    // Ostrich doesn't have fly() -> no broken contract
+}
+
+
 ```
+
+
+Separation of FlyableBird and Bird removes incorrect assumptions.
+
+Now Ostrich can still be a Bird without being forced to fly().
+
+Sparrow implements FlyableBird so it can fly.
+
+This way, any substitution works correctly.
+
 # 4. I – Interface Segregation Principle (ISP)
 
 👉 Don’t force classes to implement unused methods.
