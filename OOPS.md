@@ -1,6 +1,6 @@
 SOLID Principles in Java;
 ============================================
-#1. S – Single Responsibility Principle (SRP)
+# 1. S – Single Responsibility Principle (SRP)
 
 👉 A class should have only one reason to change (do one thing well).
 ```java 
@@ -22,7 +22,7 @@ class EmailService {
     public void sendEmail(String message) { /* email logic */ }
 }
 ```
-#2. O – Open/Closed Principle (OCP)
+# 2. O – Open/Closed Principle (OCP)
 
 👉 Classes should be open for extension, but closed for modification.
 ```java
@@ -57,7 +57,7 @@ class Square implements Shape {
     public double area() { return s * s; }
 }
 ```
-#3. L – Liskov Substitution Principle (LSP)
+# 3. L – Liskov Substitution Principle (LSP)
 
 👉 Subclasses should be usable via base class reference without breaking behavior.
 ```java
@@ -77,7 +77,7 @@ class Sparrow implements FlyableBird {
 }
 class Ostrich implements Bird { /* no fly method */ }
 ```
-#4. I – Interface Segregation Principle (ISP)
+# 4. I – Interface Segregation Principle (ISP)
 
 👉 Don’t force classes to implement unused methods.
 ```java
@@ -108,7 +108,7 @@ class Robot implements Workable {
     public void work() {}
 }
 ```
-#5. D – Dependency Inversion Principle (DIP)
+# 5. D – Dependency Inversion Principle (DIP)
 
 👉 Depend on abstractions, not concrete implementations.
 👉 Definition:
