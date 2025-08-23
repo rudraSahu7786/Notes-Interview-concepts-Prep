@@ -152,13 +152,15 @@ class Computer {
     }
 }
 
+```
 
 Problem
+--------
 
 Computer is tightly bound to WiredKeyboard.
 
 If we want to use a WirelessKeyboard, we must change Computer class → violates DIP.
-
+```java 
 ✅ Good Example (with DIP)
 // Abstraction
 interface Keyboard {
