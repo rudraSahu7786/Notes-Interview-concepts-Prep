@@ -139,42 +139,66 @@ class Robot implements Workable {
 High-level modules should not depend on low-level modules.
 Both should depend on abstractions (interfaces).
 ```java
+❌ Bad Example (without DIP)
+class WiredKeyboard {
+    public void type() { System.out.println("Typing with wired keyboard"); }
+}
+
+class Computer {
+    private WiredKeyboard keyboard = new WiredKeyboard(); // tightly coupled
+
+    public void use() {
+        keyboard.type();
+    }
+}
+
+
+Problem
+
+Computer is tightly bound to WiredKeyboard.
+
+If we want to use a WirelessKeyboard, we must change Computer class → violates DIP.
+
+✅ Good Example (with DIP)
 // Abstraction
-interface Database {
-    void connect();
+interface Keyboard {
+    void type();
 }
 
-// Low-level implementations
-class MySQLDatabase implements Database {
-    public void connect() { System.out.println("Connected to MySQL"); }
+// Low-level modules
+class WiredKeyboard implements Keyboard {
+    public void type() { System.out.println("Typing with wired keyboard"); }
 }
 
-class PostgreSQLDatabase implements Database {
-    public void connect() { System.out.println("Connected to PostgreSQL"); }
+class WirelessKeyboard implements Keyboard {
+    public void type() { System.out.println("Typing with wireless keyboard"); }
 }
 
-// High-level module
-class UserRepository {
-    private final Database db;
+// High-level module depends on abstraction
+class Computer {
+    private Keyboard keyboard;
 
-    // Depend on abstraction
-    UserRepository(Database db) {
-        this.db = db;
+    // Inject dependency via constructor
+    public Computer(Keyboard keyboard) {
+        this.keyboard = keyboard;
     }
 
-    public void saveUser(String user) {
-        db.connect();
-        System.out.println("User saved: " + user);
+    public void use() {
+        keyboard.type();
     }
 }
 
-// Usage
+Usage
 public class Main {
     public static void main(String[] args) {
-        Database db1 = new PostgreSQLDatabase(); // can swap with MySQLDatabase
-        Database db2 = new MySQLDatabase(); // can swap with MySQLDatabase
-        UserRepository repo = new UserRepository(db);
-        repo.saveUser("John");
+        Keyboard wired = new WiredKeyboard();
+        Keyboard wireless = new WirelessKeyboard();
+
+        Computer c1 = new Computer(wired);
+        c1.use(); // Typing with wired keyboard
+
+        Computer c2 = new Computer(wireless);
+        c2.use(); // Typing with wireless keyboard
     }
 }
 
