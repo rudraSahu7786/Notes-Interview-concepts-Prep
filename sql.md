@@ -1,4 +1,4 @@
-# SQL Interview Preparation Notes
+# SQL Interview Preparation Notes (Oracle SQL)
 
 ---
 
@@ -29,14 +29,22 @@ SELECT MAX(salary) AS SecondHighest
 FROM Employee
 WHERE salary < (SELECT MAX(salary) FROM Employee);
 ```
-Or using ROW_NUMBER():
+
+Or using `ROWNUM`:
+```sql
+SELECT salary
+FROM (
+  SELECT salary FROM Employee ORDER BY salary DESC
+)
+WHERE ROWNUM = 2;
+```
+
+Or using `FETCH`:
 ```sql
 SELECT salary 
-FROM (
-  SELECT salary, ROW_NUMBER() OVER (ORDER BY salary DESC) rn 
-  FROM Employee
-) t 
-WHERE rn = 2;
+FROM Employee
+ORDER BY salary DESC
+OFFSET 1 ROW FETCH NEXT 1 ROW ONLY;
 ```
 
 ### 3. Difference between WHERE and HAVING
@@ -57,7 +65,7 @@ SELECT salary
 FROM (
   SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) as rnk
   FROM Employee
-) t 
+)
 WHERE rnk = N;
 ```
 
@@ -71,7 +79,7 @@ SELECT dept_id, COUNT(*) as emp_count
 FROM Employee
 GROUP BY dept_id
 ORDER BY emp_count DESC
-LIMIT 1;
+FETCH FIRST 1 ROW ONLY;
 ```
 
 ### 8. Clustered vs Non-Clustered Index
@@ -126,7 +134,7 @@ COMMIT;
 - Avoid `SELECT *`.
 - Prefer EXISTS over IN for subqueries.
 - Partition large tables.
-- Use EXPLAIN plan to analyze queries.
+- Use `EXPLAIN PLAN` to analyze queries.
 - Denormalize for heavy read operations.
 
 ---
@@ -152,7 +160,9 @@ WHERE p.emp_id IS NULL;
 ```sql
 SELECT e1.name AS Employee1, e2.name AS Employee2, e1.manager_id
 FROM Employee e1
-JOIN Employee e2 ON e1.manager_id = e2.manager_id AND e1.emp_id < e2.emp_id;
+JOIN Employee e2 
+  ON e1.manager_id = e2.manager_id 
+ AND e1.emp_id < e2.emp_id;
 ```
 
 ### 19. Fetch departments with no employees
@@ -179,9 +189,8 @@ GROUP BY p.project_name;
 - Be clear on **JOIN types** (most frequently asked).  
 - Practice **Top-N queries** and **duplicate detection**.  
 - Revise **transactions & isolation levels**.  
-- Review **CTEs, set operations (UNION, INTERSECT)** for advanced questions.
+- Review **CTEs, set operations (UNION, INTERSECT, MINUS)** for advanced questions.
 
 ---
 
 **End of SQL Interview Notes**
-
