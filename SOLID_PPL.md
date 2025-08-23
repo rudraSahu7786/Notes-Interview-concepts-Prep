@@ -61,6 +61,7 @@ class Square implements Shape {
 
 👉 Subtypes must be substitutable for their base types without altering correctness of the program.
 ```java
+We can replace parent class with child class
 ❌ Bad Example (Breaks LSP)
 class Bird { void fly() {} }
 class Ostrich extends Bird { 
