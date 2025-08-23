@@ -59,7 +59,7 @@ class Square implements Shape {
 ```
 # 3. L – Liskov Substitution Principle (LSP)
 
-👉 Subclasses should be usable via base class reference without breaking behavior.
+👉 Subtypes must be substitutable for their base types without altering correctness of the program.
 ```java
 ❌ Bad Example (Breaks LSP)
 class Bird { void fly() {} }
@@ -207,12 +207,12 @@ public class Main {
 ```
 “SOLID stands for five design principles:
 
-SRP: one responsibility per class,
+SRP: A class should have only one reason to change (do one thing well).
 
-OCP: extend behavior without modifying existing code,
+OCP: Classes should be open for extension, but closed for modification.
 
-LSP: subclasses should work seamlessly in place of parent,
+LSP: Subtypes must be substitutable for their base types without altering correctness of the program.
 
-ISP: prefer small, specific interfaces,
+ISP: prefer small, specific interfaces,(Don’t force classes to implement unused methods.)
 
-DIP: depend on abstractions, not concrete classes.
+DIP: depend on abstractions, not concrete classes. (Keyboard wired = new WiredKeyboard();)
