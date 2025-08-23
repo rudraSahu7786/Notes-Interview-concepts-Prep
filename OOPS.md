@@ -1,9 +1,9 @@
 SOLID Principles in Java;
 ============================================
-1. S – Single Responsibility Principle (SRP)
+#1. S – Single Responsibility Principle (SRP)
 
 👉 A class should have only one reason to change (do one thing well).
-
+```java 
 ❌ Bad Example:
 
 class UserService {
@@ -21,11 +21,11 @@ class UserService {
 class EmailService {
     public void sendEmail(String message) { /* email logic */ }
 }
-
-2. O – Open/Closed Principle (OCP)
+```
+#2. O – Open/Closed Principle (OCP)
 
 👉 Classes should be open for extension, but closed for modification.
-
+```java
 ❌ Bad Example:
 
 class Shape {
@@ -56,11 +56,11 @@ class Square implements Shape {
     Square(double s) { this.s = s; }
     public double area() { return s * s; }
 }
-
-3. L – Liskov Substitution Principle (LSP)
+```
+#3. L – Liskov Substitution Principle (LSP)
 
 👉 Subclasses should be usable via base class reference without breaking behavior.
-
+```java
 ❌ Bad Example:
 
 class Bird { void fly() {} }
@@ -76,11 +76,11 @@ class Sparrow implements FlyableBird {
     public void fly() { System.out.println("Flying"); }
 }
 class Ostrich implements Bird { /* no fly method */ }
-
-4. I – Interface Segregation Principle (ISP)
+```
+#4. I – Interface Segregation Principle (ISP)
 
 👉 Don’t force classes to implement unused methods.
-
+```java
 ❌ Bad Example:
 
 interface Worker {
@@ -107,14 +107,14 @@ class Human implements Workable, Eatable {
 class Robot implements Workable {
     public void work() {}
 }
-
-5. D – Dependency Inversion Principle (DIP)
+```
+#5. D – Dependency Inversion Principle (DIP)
 
 👉 Depend on abstractions, not concrete implementations.
 👉 Definition:
 High-level modules should not depend on low-level modules.
 Both should depend on abstractions (interfaces).
-
+```java
 // Abstraction
 interface Database {
     void connect();
@@ -154,7 +154,7 @@ public class Main {
     }
 }
 
-
+```
 “SOLID stands for five design principles:
 
 SRP: one responsibility per class,
