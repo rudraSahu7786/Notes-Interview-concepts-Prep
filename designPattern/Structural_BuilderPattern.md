@@ -36,11 +36,11 @@ public class Person {
     }
 
     // Static nested Builder class
-    public static class PersonBuilder {
+public static class PersonBuilder {
         // Required parameters
         private final String firstName;
         private final String lastName;
-
+__
         // Optional parameters
         private Integer age;
         private String address;
