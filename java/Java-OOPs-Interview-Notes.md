@@ -1,4 +1,4 @@
-# Java OOPs Interview Notes
+# Java OOP
 
 ## 1. OOPs Concepts in Java
 
