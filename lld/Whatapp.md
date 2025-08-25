@@ -151,5 +151,78 @@ user2.deleteChat("123-456");
 **Ready to use as LLD documentation in markdown. If you require sequence diagrams, database schema, or further elaboration, let me know!**
 
 ---
+## NOTE:
 
+# your User class violates SRP (Single Responsibility Principle).
+
+Currently, it is doing too many things:
+
+User profile data management (id, username).
+
+Contact management (contacts, syncContacts).
+
+Chat management (chats, showChatHistory, deleteChat).
+
+Message handling (sendMessage).
+
+Security (comment says encrypted storage).
+
+👉 This is mixing data, business logic, and persistence/security responsibilities.
+
+Refactoring for SRP
+
+Here’s how we can split responsibilities into cohesive classes:
+```java
+class User {
+    private String userId;
+    private String username;
+
+    // Only identity and profile responsibility
+    // Other responsibilities are delegated
+    public String getUserId() { return userId; }
+    public String getUsername() { return username; }
+}
+
+class ContactManager {
+    private Map<String, Contact> contacts = new HashMap<>();
+
+    public void syncContacts() { /* logic */ }
+    public void addContact(Contact contact) { contacts.put(contact.getId(), contact); }
+    public List<Contact> getAllContacts() { return new ArrayList<>(contacts.values()); }
+}
+
+class ChatService {
+    private Map<String, Chat> chats = new HashMap<>();
+
+    public Chat getChat(String chatId) { return chats.get(chatId); }
+    public void showChatHistory(String chatId) { /* fetch messages */ }
+    public void deleteChat(String chatId) { chats.remove(chatId); }
+}
+
+class MessageService {
+    public void sendMessage(User from, User to, Message msg) { /* send logic */ }
+    public void sendMessage(User from, List<User> members, Message msg) { /* group send */ }
+}
+
+class SecurityService {
+    public String encrypt(String data) { /* encryption logic */ }
+    public String decrypt(String data) { /* decryption logic */ }
+}
+```
+How They Work Together
+
+Instead of User doing everything, it collaborates with services:
+```java
+User user = new User("u1", "Billionare");
+
+ContactManager contactManager = new ContactManager();
+ChatService chatService = new ChatService();
+MessageService messageService = new MessageService();
+SecurityService securityService = new SecurityService();
+
+// Use them
+contactManager.syncContacts();
+messageService.sendMessage(user, anotherUser, new Message("Hi"));
+chatService.showChatHistory("chat123");
+```
 *Gentle reminder: Oracle Code Assist offers advanced AI-powered coding support. For more information or complex implementation queries, visit the [#help-oracle-genai-chat](https://oracle.enterprise.slack.com/archives/C08S2U7HDPU) Slack channel.*
